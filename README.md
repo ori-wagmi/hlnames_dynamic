@@ -1,36 +1,32 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Demo of HLNames integration with Dynamic
+This is an example of how to integrate hlnames (or any name service) into Dynamic. The resulting behavior is that users that connect their wallet will see their PrimaryName (friendly .hl name) and avatar in the ConnectWallet button and Profile dialog.
 
-## Getting Started
+Created with `npx create-dynamic-app`: https://www.dynamic.xyz/docs/example-apps
 
-First, run the development server:
+All relevant code is in `/src/lib/providers.tsx`. Everything else is boilerplate
 
-```bash
+## Setup
+```
+npm install
 npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+Go to localhost and connect your wallet
+See your .hl name and avatar if it you've set it
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Optionally change ENVIRONMENT_ID in `providers.tsx
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+## How it works
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+We hook into the `onAuthSuccess` callback, when triggers whenever a user signs in with dynamic (wallet or email sign in). We then loop through the user's [verifiedCredentials](https://www.dynamic.xyz/docs/users/verified-credential), looking for instances of `Blockchain`. We then pull out the address, query the hlnames API for the user profile, and set the name and avatar on the credential's [nameServiceData](https://www.dynamic.xyz/docs/react-sdk/objects/verified-credential#nameservicedata)
 
-## Learn More
+This only applies to the local session, and does not affect the user object in the dynamic backend.
 
-To learn more about Next.js, take a look at the following resources:
+Confirmed with Dynamic support that this is likely the best way to do it: https://dynamiccustomers.slack.com/archives/C039EQEADS6/p1754329440318819
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+![alt text](dynamicSlackDiscussion.png)
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Things i've tried that doesn't work
+1. I initially tried to use the [Create a new name service for the environment and chain](https://www.dynamic.xyz/docs/api-reference/nameservices/create-a-new-name-service-for-the-environment-and-chain) API, however I was never able to get the signed message to work as it always returned 500 error.
 
-## Deploy on Vercel
+2. I tried setting other fields on the [userProfile](https://www.dynamic.xyz/docs/react-sdk/objects/userprofile#userprofile), such as alias and firstName, but none of them shows up in the connectWallet. Per the code, only nameService and wallet address is used: ![alt text](AccountControl.png)
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
