@@ -43,7 +43,7 @@ export default function App() {
   // This will dispaly the .hl name and avatar in the Connect Wallet button and Profile modal.
   // Only applies locally, does not affect the user object in dynamic backend.
   // https://www.dynamic.xyz/docs/react-sdk/objects/verified-credential#nameservicedata
-  // https://www.dynamic.xyz/docs/users/verified-credential#jwtverifiedcredentialformatenum
+  // https://www.dynamic.xyz/docs/users/verified-credential
   // https://www.dynamic.xyz/docs/users/verified-credential#jwtverifiedcredentialformatenum
   const handleAuthSuccess = async (args: any) => {
     try {
