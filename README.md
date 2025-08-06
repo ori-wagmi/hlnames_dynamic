@@ -17,7 +17,7 @@ Optionally change ENVIRONMENT_ID in `providers.tsx
 
 ## How it works
 
-We hook into the `onAuthSuccess` callback, when triggers whenever a user signs in with dynamic (wallet or email sign in). We then loop through the user's [verifiedCredentials](https://www.dynamic.xyz/docs/users/verified-credential), looking for instances of `Blockchain`. We then pull out the address, query the hlnames API for the user profile, and set the name and avatar on the credential's [nameServiceData](https://www.dynamic.xyz/docs/react-sdk/objects/verified-credential#nameservicedata)
+We hook into the `onAuthSuccess` callback, when triggers whenever a user signs in with dynamic (wallet or email sign in). We then loop through the user's [verifiedCredentials](https://www.dynamic.xyz/docs/users/verified-credential), looking for instances of `Blockchain`. We then pull out the address, query the [hlnames API](https://hyperliquid-names.gitbook.io/hyperliquid-names/dapp-integration/dapp-integration) for the user profile, and set the name and avatar on the credential's [nameServiceData](https://www.dynamic.xyz/docs/react-sdk/objects/verified-credential#nameservicedata)
 
 This only applies to the local session, and does not affect the user object in the dynamic backend.
 
@@ -30,3 +30,7 @@ Confirmed with Dynamic support that this is likely the best way to do it: https:
 
 2. I tried setting other fields on the [userProfile](https://www.dynamic.xyz/docs/react-sdk/objects/userprofile#userprofile), such as alias and firstName, but none of them shows up in the connectWallet. Per the code, only nameService and wallet address is used: ![alt text](AccountControl.png)
 
+## Resources
+https://hyperliquid-names.gitbook.io/hyperliquid-names/dapp-integration/dapp-integration
+https://www.dynamic.xyz/docs/introduction/welcome
+https://app.slack.com/client/T039BRF4F7F
